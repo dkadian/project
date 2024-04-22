@@ -30,9 +30,12 @@ public class game {
             System.out.print("Enter number of wicktes : ");
             wkts = sc.nextInt();
             if (tosschoice.equals("bat") || (Bat_or_Ball.equals("ball"))) {
-                UserBatting(Bat_or_Ball_User,5);
-            } else if (tosschoice.equals("ball")) {
-                AIBatting(Bat_or_Ball_User,5);
+                UserBatting(Bat_or_Ball_User);
+            } else if (tosschoice.equals("ball") || Bat_or_Ball.equals("bat")) {
+                AIBatting(tosschoice);
+            }
+            else{
+                System.out.println("Invalid choice");
             }
 
         } else if (Toss_Result.equals("t") || Toss_Result.equals("h")) {
@@ -41,10 +44,10 @@ public class game {
             System.out.println("AI choose to " + Bat_or_Ball);
             System.out.print("Enter number of wickets : ");
             wkts = sc.nextInt();
-            if (Bat_or_Ball.equals("bat")) {
-                AIBatting(Bat_or_Ball,5);
+            if (Bat_or_Ball.equals("bat") ) {
+                AIBatting(Bat_or_Ball);
             } else if (Bat_or_Ball.equals("ball")) {
-                UserBatting(Bat_or_Ball,5);
+                UserBatting(Bat_or_Ball);
             }
 
         } else {
@@ -55,13 +58,14 @@ public class game {
 
     // AI
     // Batting---------------------------------------------------------------------------------------------------------------
-    public static void AIBatting(String Bat_or_Ball,int overs) {
+    public static void AIBatting(String Bat_or_Ball) {
         int runs = 0;
         int chase = 0;
         Scanner sc = new Scanner(System.in);
         Random r = new Random();
         wktscount = 0;
-        // ----------------------------------------AI batting----------------------------------------------------------
+        // ----------------------------------------AI
+        // batting----------------------------------------------------------
         while (wktscount < wkts) {
 
             int AIruns = r.nextInt(6);
@@ -69,11 +73,15 @@ public class game {
             int UserBowl = sc.nextInt();
             System.out.println("AI Runs : " + AIruns);
             System.out.println();
+            if (UserBowl > 7) {
+                System.out.println("You are cheating and you disqualified form the game...");
+                break;
+            }
             if (AIruns != UserBowl) {
                 runs = runs + AIruns;
                 System.out.print("Runs by AI : " + runs + "/" + wktscount);
                 System.out.println();
-              
+
                 System.out.println("___________________");
                 System.out.println();
 
@@ -81,7 +89,7 @@ public class game {
                 System.out.println("Wicket!!!!!!");
                 wktscount++;
                 System.out.println(wktscount + " wicket fall");
-                
+
                 System.out.println("-------------------------------");
 
                 if (wktscount == wkts) {
@@ -97,31 +105,39 @@ public class game {
 
         System.out.println();
 
-        //-------------------------- User batting------------------------------------
+        // -------------------------- User batting------------------------------------
         while (true) {
 
-            int AIbowl = r.nextInt(6);
+            int AIbowl = r.nextInt(10);
+            int AIbowl1 = r.nextInt(10);
             System.out.print("User bats : ");
             int UserBat = sc.nextInt();
             System.out.println("AI bowls : " + AIbowl);
             System.out.println();
+            if (UserBat > 7) {
+                System.out.println("You are cheating and you disqualified form the game...");
+                break;
+            }
             if (AIbowl != UserBat) {
 
                 chase = chase + UserBat;
                 System.out.println("Runs by USer : " + chase + "/" + wktscount);
-                
+
                 System.out.println("___________________");
                 System.out.println("Runs need to win is " + ((runs - chase)));
                 if (chase > runs) {
                     System.out.println("User is winner");
                     break;
+                } else if (chase == runs) {
+                    System.out.println("Match is Tie");
+                    break;
                 }
 
-            } else if (AIbowl == UserBat) {
+            } else if (AIbowl == UserBat || AIbowl1 == UserBat) {
 
                 System.out.println("Wicket!!!!!!");
                 wktscount++;
-                System.out.println(wktscount + " wicket fall"); 
+                System.out.println(wktscount + " wicket fall");
                 System.out.println("-------------------------------");
                 if (wktscount == wkts) {
                     if (chase < runs) {
@@ -137,33 +153,37 @@ public class game {
 
     // User
     // Batting---------------------------------------------------------------------------------------------------------
-    public static void UserBatting(String Bat_or_Ball_User, int overs) {
+    public static void UserBatting(String tosschoice) {
         int runs = 0;
         int chase = 0;
         Scanner sc = new Scanner(System.in);
         Random r = new Random();
         wktscount = 0;
-        //----------------- User batting-----------------------
+        // ----------------- User batting-----------------------
 
         while (true) {
 
-            int AIball = r.nextInt(6);
+            int AIball = r.nextInt(10);
+            int AIball1 = r.nextInt(10);
             System.out.print("User bats : ");
             int UserBat = sc.nextInt();
             System.out.println("AI bowls : " + AIball);
             System.out.println();
-            
-            if (AIball != UserBat) {
+            if (UserBat > 6) {
+                System.out.println("You was cheating and you disqualified form the game...");
+                break;
+            }
+            if (AIball != UserBat && AIball1 != UserBat) {
                 runs = runs + UserBat;
                 System.out.println("Runs by USer : " + runs + "/" + wktscount);
-            
+
                 System.out.println("___________________");
 
-            } else if (AIball == UserBat) {
+            } else if (AIball == UserBat || AIball1 == UserBat ) {
                 System.out.println("Wicket!!!!!!");
                 wktscount++;
                 System.out.println(wktscount + " wicket fall");
-                
+
                 System.out.println("--------------------------------------");
                 if (wktscount == wkts) {
                     wktscount = 0;
@@ -177,7 +197,8 @@ public class game {
         System.out.println();
         System.out.println("Runs need by AI to win :" + (runs + 1));
 
-        //--------------------------------- AI Batting-------------------------------------------
+        // --------------------------------- AI
+        // Batting-------------------------------------------
         while (true) {
 
             int AIruns = r.nextInt(6);
@@ -185,23 +206,30 @@ public class game {
             int UserBowl = sc.nextInt();
             System.out.println("AI Runs : " + AIruns);
             System.out.println();
+            if (UserBowl > 6) {
+                System.out.println("You was cheating and you disqualified form the game...");
+                break;
+            }
             if (AIruns != UserBowl) {
                 chase = chase + AIruns;
                 System.out.print("Runs by AI : " + chase + "/" + wktscount);
                 System.out.println();
-               
+
                 System.out.println("___________________");
                 System.out.println("Runs need to win is " + (runs - chase));
 
                 if (chase > runs) {
                     System.out.println("AI is winner");
                     break;
+                } else if (chase == runs) {
+                    System.out.println("Match is Tie");
+                    break;
                 }
             } else if (AIruns == UserBowl) {
                 System.out.println("Wicket!!!!!!");
                 wktscount++;
                 System.out.println(wktscount + " wicket fall");
-                   
+
                 System.out.println("---------------------------------");
                 if (wktscount == wkts) {
                     if (chase < runs) {
@@ -212,8 +240,5 @@ public class game {
                 }
             }
         }
-
     }
- }
-
-
+}
